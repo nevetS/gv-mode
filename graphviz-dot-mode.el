@@ -144,25 +144,24 @@
 (define-abbrev-table 'graphviz-dot-mode-abbrev-table ())
 
 (defcustom graphviz-dot-dot-program "dot"
-  "*Location of the dot program. This is used by `compile'."
+  "*Location of the dot program.  This is used by `compile'."
   :type 'string
   :group 'graphviz)
 
 (defcustom graphviz-dot-view-command "doted %s"
-  "*External program to run on the buffer. You can use `%s' in this string,
-and it will be substituted by the buffer name."
+  "*External program to run on the buffer.
+You can use `%s' in this string, and it will be substituted by the buffer name."
   :type 'string
   :group 'graphviz)
 
 (defcustom graphviz-dot-view-edit-command nil
-  "*Whether to allow the user to edit the command to run an external
-viewer."
+  "*Whether to allow the user to edit the command to run an external viewer."
   :type 'boolean
   :group 'graphviz)
 
 (defcustom graphviz-dot-save-before-view t
-  "*If not nil, M-x graphviz-dot-view saves the current buffer before running
-the command."
+  "*Save the current buffer before running command. 
+If not nil, M-x graphviz-dot-view saves the current buffer before running the command."
   :type 'boolean
   :group 'graphviz)
 
@@ -182,14 +181,13 @@ the command."
   :group 'graphviz)
 
 (defcustom graphviz-dot-auto-indent-on-semi t
-  "*If not nil, `electric-graphviz-dot-semi' is executed when semicolon is typed"
+  "*If not nil, `electric-graphviz-dot-semi' is executed when semicolon is typed."
   :type 'boolean
   :group 'graphviz)
 
 (defcustom graphviz-dot-preview-extension "png"
-  "*The extension to use for the compilation and preview commands. The format
-for the compilation command is 
-`dot -T<extension> file.dot > file.<extension>'."
+  "*The extension to use for the compilation and preview commands.
+The format for the compilation command is `dot -T<extension> file.dot > file.<extension>'." 
   :type 'string
   :group 'graphviz)
 
@@ -455,7 +453,8 @@ The list of constant is available at http://www.research.att.com/~erg/graphviz\
 
 ;;;###autoload
 (defun graphviz-dot-mode ()
-  "Major mode for the dot language. \\<graphviz-dot-mode-map> 
+  "Major mode for the dot language.
+\\<graphviz-dot-mode-map>
 TAB indents for graph lines. 
 
 \\[graphviz-dot-indent-graph]\t- Indentaion function.
