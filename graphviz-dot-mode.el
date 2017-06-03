@@ -383,13 +383,13 @@ The list of constant is available at http://www.research.att.com/~erg/graphviz\
   (mapcar 'symbol-name graphviz-dot-colors-list))
 
 (defvar graphviz-attr-keywords
-  (mapcar '(lambda (elm) (cons elm 0)) graphviz-dot-attr-keywords))
+  (mapcar #'(lambda (elm) (cons elm 0)) graphviz-dot-attr-keywords))
 
 (defvar graphviz-value-keywords
-  (mapcar '(lambda (elm) (cons elm 0)) graphviz-dot-value-keywords))
+  (mapcar #'(lambda (elm) (cons elm 0)) graphviz-dot-value-keywords))
 
 (defvar graphviz-color-keywords
-  (mapcar '(lambda (elm) (cons elm 0)) graphviz-dot-color-keywords))
+  (mapcar #'(lambda (elm) (cons elm 0)) graphviz-dot-color-keywords))
 
 ;;; Key map
 (defvar graphviz-dot-mode-map ()
@@ -525,7 +525,9 @@ Turning on Graphviz Dot mode calls the value of the variable
   (set (make-local-variable 'compilation-parse-errors-function)
        'graphviz-dot-compilation-parse-errors)
   (if dot-menu
-      (easy-menu-add dot-menu))
+      (if (fboundp 'easy-menu-add)
+	  (easy-menu-add dot-menu)))
+
   (run-hooks 'graphviz-dot-mode-hook)
   )
 
@@ -751,7 +753,7 @@ then indent this and each subgraph in it."
 ;;;; Preview
 ;;;;
 (defun graphviz-dot-preview ()
-  "Shows an example of the current dot file in an emacs buffer.
+  "Show an example of the current dot file in an Emacs buffer.
 This assumes that we are running GNU Emacs or XEmacs under a windowing system.
 See `image-file-name-extensions' for customizing the files that can be
 loaded in GNU Emacs, and `image-formats-alist' for XEmacs."
@@ -794,8 +796,9 @@ loaded in GNU Emacs, and `image-formats-alist' for XEmacs."
 ;;;; View
 ;;;;
 (defun graphviz-dot-view ()
-  "Runs an external viewer. This creates an external process every time it
-is executed. If `graphviz-dot-save-before-view' is set, the current
+  "Run an external viewer.  
+This creates an external process every time it
+is executed.  If `graphviz-dot-save-before-view' is set, the current
 buffer is saved before the command is executed."
   (interactive)
   (let ((cmd (if graphviz-dot-view-edit-command
@@ -823,7 +826,7 @@ buffer is saved before the command is executed."
 (defvar graphviz-dot-flag nil)
 
 (defun graphviz-dot-get-state ()
-  "Returns the syntax state of the current point."
+  "Return the syntax state of the current point."
   (let ((state (parse-partial-sexp (point-min) (point))))
     (cond
      ((nth 4 state) 'comment)
@@ -842,7 +845,7 @@ buffer is saved before the command is executed."
            (t 'other)))))))
 
 (defun graphviz-dot-get-keywords ()
-  "Return possible completions for a word"
+  "Return possible completions for a word."
   (let ((state (graphviz-dot-get-state)))
     (cond
      ((equal state 'comment)   ())
@@ -871,7 +874,7 @@ buffer is saved before the command is executed."
                                      (graphviz-dot-get-keywords))))
          (match (if graphviz-dot-toggle-completions
                     "" (try-completion
-                        graphviz-dot-str (mapcar '(lambda (elm)
+                        graphviz-dot-str (mapcar #'(lambda (elm)
                                                     (cons elm 0)) allcomp)))))
     ;; Delete old string
     (delete-region b e)
