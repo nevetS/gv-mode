@@ -17,13 +17,15 @@
 ;; Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,
 ;; MA 02111-1307 USA
 
-;; Authors: Pieter Pareit <pieter.pareit@scarlet.be>
+;; Authors: Steve Kallestad <stevenk1@stanford.edu>
+;;          Pieter Pareit <pieter.pareit@scarlet.be>
 ;;          Rubens Ramos <rubensr AT users.sourceforge.net>
-;; Maintainer: Pieter Pareit <pieter.pareit@planetinternet.be>
+;;          
+;; Maintainer: Steve Kallestad <stevenk1@stanford.edu>
 ;; Homepage: http://users.skynet.be/ppareit/projects/graphviz-dot-mode/graphviz-dot-mode.html
 ;; Created: 28 Oct 2002
-;; Last modified: 15 Feb 2005
-;; Version: 0.3.3
+;; Last modified: 03 June 2017
+;; Version: 0.3.5
 ;; Keywords: mode dot dot-language dotlanguage graphviz graphs att
 
 ;;; Commentary:
@@ -54,6 +56,8 @@
 
 ;;; History:
 
+;; Version 0.3.5 bug fixes
+;; 03/06/2017  * updated graphical support detection mechanism
 ;; Version 0.3.4 bug fixes
 ;; 24/02/2005: * fixed a bug in graphviz-dot-preview
 ;; Version 0.3.3 bug fixes
@@ -755,7 +759,8 @@ loaded in GNU Emacs, and `image-formats-alist' for XEmacs."
   ;; unsafe to compile ourself, ask it to the user
   (if (buffer-modified-p)
       (message "Buffer needs to be compiled.")
-    (if (string-match "XEmacs" emacs-version)
+
+    (if (fboundp 'find-file-other-window)
         ;; things are easier in XEmacs...
         (find-file-other-window (concat (file-name-sans-extension
 					 buffer-file-name)
